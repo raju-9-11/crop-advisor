@@ -1,0 +1,17 @@
+.site-page-header {
+    border: 1px solid rgb(235, 237, 240);
+}
+  .site-page-header-ghost-wrapper {
+  background-color: #f5f5f5;
+}
+.ant-carousel .slick-slide {
+  text-align: center;
+  height: 300px;
+  line-height: 160px;
+  background: #364d79;
+  overflow: hidden;
+}
+
+.ant-carousel .slick-slide h3 {
+  color: #fff;
+}

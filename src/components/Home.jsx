@@ -1,8 +1,9 @@
 import React  from 'react';
-import { PageHeader , Button , Input , Carousel , Card, Col , Row ,  Drawer, Form,  Radio } from 'antd';
+import { PageHeader , Button , Input , Carousel , Card, Col , Row ,  Drawer, Form,  Radio, message } from 'antd';
 import './Home.css';
 import { useState } from 'react';
 import { navigate } from '@reach/router';
+import { auth } from '../../firebase';
 
 const Home = (props) =>{
     
@@ -29,17 +30,31 @@ const Home = (props) =>{
     const onClose = () => {
       setVisible(false);
     };
-    const onSubmit = () => {
-        console.log(name)
-        console.log(email)
-        console.log(password)
-        console.log(password1)
-        console.log(profession)
+    const onSubmit = () =>{
+        auth.createUserWithEmailAndPassword(email, password)
+            .then(function(result) {
+                message.success("Sign Up sucessful")
+                setEmail('')
+                setPassword('')
+            })
+            .catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            message.warning(errorCode+"  "+errorMessage)
+            // ...
+          });
+
     }
     const onSignIn = () => {
-        navigate("dashboard")
-        console.log(email)
-        console.log(password)
+        auth.signInWithEmailAndPassword(email,password)
+            .then(function(result) {
+                message.success("sign in successful")
+                navigate("dashboard")
+            })
+            .catch(function(error) {
+                message.warning(Error)
+            })
     }
     return(
         <div className="login_container">
@@ -83,24 +98,19 @@ const Home = (props) =>{
             <div className="Info_container">
                 <div className="site-card-wrapper">
                     <Row gutter={16}>
-                    <Col span={6}>
-                        <Card title="Registration" bordered={true}>
-                        Registration Information
-                        </Card>
-                    </Col>
-                    <Col span={6}>
+                    <Col span={8}>
                         <Card title="Historical Information" bordered={false}>
-                        Historical Information
+                        This module contains information on the production per area which helps us predict the production for the upcoming years .
                         </Card>
                     </Col>
-                    <Col span={6}>
+                    <Col span={8}>
                         <Card title="Forecast analysis" bordered={false}>
-                        Forecast Analysis Information 
+                        This module provides the weather forecast preparing the farmer to decide the crop to be sown .
                         </Card>
                     </Col>
-                    <Col span={6}>
+                    <Col span={8}>
                         <Card title="Market Tendency" bordered={false}>
-                        Market Tendency
+                        This module displays the current market tendency which lets us compare the difference between the production between years .
                         </Card>
                     </Col>
                     </Row>
@@ -170,7 +180,7 @@ const Home = (props) =>{
                                 label="Profession"
                                 rules={[{ required: true, message: 'Please enter the Profession' }]}
                                 >
-                                <Radio.Group onChange={onProfessionChange} defaultValue="a">
+                                <Radio.Group onChange={onProfessionChange}>
                                     <Radio.Button value="a">Farmer</Radio.Button>
                                     <Radio.Button value="b">Authority</Radio.Button>
                                     </Radio.Group>

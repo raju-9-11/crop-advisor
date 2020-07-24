@@ -1,24 +1,32 @@
 import React from 'react';
-import { Tabs , Button , Affix} from 'antd';
-import { AppleOutlined, AndroidOutlined } from '@ant-design/icons';
+import { Tabs , Button , Affix , message , Space } from 'antd';
+import { AppleOutlined, LoadingOutlined , DollarCircleOutlined, WechatOutlined, AppstoreAddOutlined } from '@ant-design/icons';
 import { navigate } from '@reach/router';
 import Forum from './Forum';
 import ForecastAnalysis from './ForecastAnalysis';
 import HistoricalReport from './HistorcalReport';
 import MarketTendency from './MarketTendency';
 import CreateQuery from './CreateQuery';
+import { auth } from '../../firebase'
+import './Dashboard.css'
 
 const { TabPane } = Tabs;
 
 
-const onSignOut =() =>{
-    console.log("log out")
-    navigate('/')
+const onSignOut = () => {
+    auth.signOut()
+        .then(function(result) {
+            message.success("logout successful");
+            navigate('/')
+        })
+        .catch(function(error) {
+            console.log(error);
+        })
 }
 const operations = <Button type="primary" onClick={onSignOut}>Sign Out</Button>;
 
 
-
+ 
 const Dashboard = (props) => {
     return (
         <div className="dashboard_container">
@@ -38,7 +46,7 @@ const Dashboard = (props) => {
                         <TabPane
                         tab={
                             <span>
-                            <AndroidOutlined />
+                            <LoadingOutlined />
                             Forecast Analysis
                             </span>
                         }
@@ -49,7 +57,7 @@ const Dashboard = (props) => {
                         <TabPane
                         tab={
                             <span>
-                            <AndroidOutlined />
+                            <DollarCircleOutlined />
                             Market Tendency
                             </span>
                         }
@@ -60,7 +68,7 @@ const Dashboard = (props) => {
                         <TabPane
                         tab={
                             <span>
-                            <AndroidOutlined />
+                            <WechatOutlined />
                             Forum
                             </span>
                         }
@@ -71,7 +79,7 @@ const Dashboard = (props) => {
                         <TabPane
                         tab={
                             <span>
-                            <AndroidOutlined />
+                            <AppstoreAddOutlined />
                             Create Query
                             </span>
                         }

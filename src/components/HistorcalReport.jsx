@@ -1,6 +1,7 @@
 import React from 'react';
-import { Input, Select , Button , Form, DatePicker, Card , Cascader , Tooltip } from 'antd';
+import { Input, Select , Button , Form, DatePicker, Card , Cascader , Tooltip , Affix , message } from 'antd';
 import './HistoricalReport.css'
+import Map from './map';
 
 const HistoricalReport = (props) => {
   const layout = {
@@ -40,11 +41,19 @@ const HistoricalReport = (props) => {
           ],
         },
       ];
+      const onGetReport = (event) => {
+        message.warning("under construction")
+      }
 
     return (
         <div className="historical_report_container">
+          
+        <div className="map_container">
+          <Map />
+        </div>
+      <Affix offsetTop={40}>
            <div className="get_historical_container">
-                <Card className="inputs_container" title="Get Report"  extra={<Button > Get Report </Button>} style={{ width: 800, height: 500}}>
+                <Card className="inputs_container" title="Get Report"  extra={<Button onClick={onGetReport} > Get Report </Button>} >
                 <div >
                   <Form
                       {...layout}
@@ -119,6 +128,7 @@ const HistoricalReport = (props) => {
               </div>
             </Card>
         </div>
+        </Affix>
         </div>
     )
 }

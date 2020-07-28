@@ -1,8 +1,11 @@
 import React from 'react';
-import { PageHeader , Input , Button } from 'antd'
+import { PageHeader , Input , Button, message } from 'antd'
 const { TextArea } = Input;
 
 const CreateQuery = () => {
+    const onCreate = (event) => {
+        message.warning("under construction")
+    }
     return (
         <div className="create_query_container" style={{padding:'20px'}}>
             <div className="page_header_container">
@@ -28,7 +31,7 @@ const CreateQuery = () => {
                     <div className="query_input">
                         <TextArea rows ={8} placeholder="Query Content"  />
                     </div>
-                        <Button type="primary" size="large" style={{float:'right',marginTop:'20px'}}>Create Query</Button>
+                        <Button type="primary" size="large" style={{float:'right',marginTop:'20px'}} onClick={onCreate}>Create Query</Button>
                 </div>
                     
            </div>

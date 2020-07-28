@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tabs , Button , Affix , message , Space } from 'antd';
-import { AppleOutlined, LoadingOutlined , DollarCircleOutlined, WechatOutlined, AppstoreAddOutlined } from '@ant-design/icons';
+import { AppleOutlined, ControlOutlined , DollarCircleOutlined, WechatOutlined, AppstoreAddOutlined } from '@ant-design/icons';
 import { navigate } from '@reach/router';
 import Forum from './Forum';
 import ForecastAnalysis from './ForecastAnalysis';
@@ -31,7 +31,7 @@ const Dashboard = (props) => {
     return (
         <div className="dashboard_container">
             <div className="tabs_container"style={{margin:'30px'}}>
-                    <Tabs defaultActiveKey="2" tabBarExtraContent={operations} >
+                    <Tabs defaultActiveKey="1" tabBarExtraContent={operations} >
                         <TabPane
                         tab={
                             <span>
@@ -46,7 +46,7 @@ const Dashboard = (props) => {
                         <TabPane
                         tab={
                             <span>
-                            <LoadingOutlined />
+                            <ControlOutlined />
                             Forecast Analysis
                             </span>
                         }

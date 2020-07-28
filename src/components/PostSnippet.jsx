@@ -1,7 +1,7 @@
 import React from 'react';
-import { Card } from 'antd';
+import { Card , Avatar } from 'antd';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-
+const { Meta } = Card;
 
 const PostSnippet = (props) =>{
 
@@ -21,7 +21,10 @@ const PostSnippet = (props) =>{
                     <EditOutlined key="edit" />,
                     <EllipsisOutlined key="ellipsis" />,
                   ]}>
-                    
+                    <Meta
+                    avatar={<Avatar src="https://pluspng.com/img-png/spiderman-logo-png-pin-spider-man-clipart-spiderman-logo-4-300.png" />}
+                    />
+                    <br />
                     <h3>{props.user}</h3>
             <p className="article_content">            
                 {props.content}

@@ -1,9 +1,11 @@
 import React  from 'react';
-import { PageHeader , Button , Input , Carousel , Card, Col , Row ,  Drawer, Form,  Radio, message } from 'antd';
+import { PageHeader , Button , Input , Carousel , Card, Col , Row ,  Drawer, Form,  Radio, message , Avatar } from 'antd';
 import './Home.css';
 import { useState } from 'react';
 import { navigate } from '@reach/router';
 import { auth } from '../../firebase';
+
+const { Meta } = Card ;
 
 const Home = (props) =>{
     
@@ -67,7 +69,7 @@ const Home = (props) =>{
                         <Form>
                         <Input type="email" key="4" onChange={onEmailChange} style={{ width: '35%',marginRight:'10px' }} value={email} placeholder="user@example.com" />
                         <Input.Password key="3" onChange={onPasswordChange} style={{ width: '35%',marginRight:'10px' }} value={password} placeholder="password" />
-                        <Button key="2" style={{marginRight:'10px' }} onClick={onSignIn}>Sign In</Button>,
+                        <Button key="2" style={{marginRight:'10px' }} onClick={onSignIn}>Sign In</Button>
                         <Button key="1" type="primary"style={{marginRight:'20px' }} onClick={showDrawer} >
                             Sign Up
                         </Button>
@@ -82,51 +84,60 @@ const Home = (props) =>{
             <div className="carousel_container">
             <Carousel autoplay>
                 <div >
-                <h3>Registration</h3>
+                <h3>Registration
+                </h3>
                 </div>
                 <div>
-                <h3>Historical Report</h3>
+                <h3>Historical Report
+                <br />
+                This module contains information on the production per area which helps us predict the production for the upcoming years .
+                </h3>
                 </div>
                 <div>
-                <h3>Forecast Analysis</h3>
+                <h3>Forecast Analysis
+                <br />
+                This module provides the weather forecast preparing the farmer to decide the crop to be sown .  
+                </h3>
                 </div>
                 <div >
-                <h3>Market Tendency</h3>
+                <h3>Market Tendency
+                    <br />
+                    This module displays the current market tendency which lets us compare the difference between the production between years .
+                </h3>
                 </div>
             </Carousel>
             </div>
-            <div className="Info_container">
+            {/* <div className="Info_container">
                 <div className="site-card-wrapper">
                     <Row gutter={16}>
                     <Col span={8}>
                         <Card title="Historical Information" bordered={false}>
-                        This module contains information on the production per area which helps us predict the production for the upcoming years .
                         </Card>
                     </Col>
                     <Col span={8}>
                         <Card title="Forecast analysis" bordered={false}>
-                        This module provides the weather forecast preparing the farmer to decide the crop to be sown .
                         </Card>
                     </Col>
                     <Col span={8}>
                         <Card title="Market Tendency" bordered={false}>
-                        This module displays the current market tendency which lets us compare the difference between the production between years .
                         </Card>
                     </Col>
                     </Row>
                 </div>
-            </div>
+            </div> */}
             <div className="signup_container">  
             <>
                 <Drawer
                         title="Create new Account"
                         placement="right"
-                        width={720}
+                        width={540}
                         closable={false}
                         onClose={onClose}
                         visible={visible}
                         bodyStyle={{ paddingBottom: 80 }}
                     >
+                        {/* https://cdn.iconscout.com/icon/free/png-512/avatar-372-456324.png */}
+                    <Avatar src="https://cdn.iconscout.com/icon/free/png-512/avatar-380-456332.png" style={{height:'200px', width: '200px', marginLeft:'150px', marginBottom:'30px'}} />
                     <Form layout="vertical" hideRequiredMark>
                         <Row gutter={16}>
                             <Col span={12}>

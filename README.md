@@ -1,2 +1,2 @@
 # crop-advisor
-Backend not yet deployed  
+A portal for farmers and government officials to predict the crop production and weather forecast

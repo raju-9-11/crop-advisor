@@ -3,7 +3,7 @@ import { PageHeader , Button , Input , Carousel , Card, Col , Row ,  Drawer, For
 import './Home.css';
 import { useState } from 'react';
 import { navigate } from '@reach/router';
-import { auth } from '../../firebase';
+import db , { auth } from '../../firebase';
 
 const { Meta } = Card ;
 
@@ -13,8 +13,9 @@ const Home = (props) =>{
     const [ email , setEmail ] =useState('')
     const [ password , setPassword ] =useState('')
     const [ password1 , setPassword1 ] =useState('')
-    const [ profession , setProfession ] =useState('a')
-
+    const [ profession , setProfession ] =useState('')
+    const [ load , setLoad ] = useState(false)
+    const [ user , setUser ] = useState(false)
 
     const onEmailChange = (event) => setEmail(event.target.value)
     const onPasswordChange = (event) => setPassword(event.target.value)
@@ -33,22 +34,52 @@ const Home = (props) =>{
       setVisible(false);
     };
     const onSubmit = () =>{
-        auth.createUserWithEmailAndPassword(email, password)
-            .then(function(result) {
-                message.success("Sign Up sucessful")
-                setEmail('')
-                setPassword('')
-            })
-            .catch(function(error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            message.warning(errorCode+"  "+errorMessage)
-            // ...
-          });
+        if(password!=password1){
+            message.error("Passwords do not match" )
+        }
+        else if (name==''){
+            message.error("Name cannot be empty")
+        }
+        else if (profession==''){
+            message.error("Select a profession")
+        }
+        else{
+            auth.createUserWithEmailAndPassword(email, password)
+                .then(function(result) {
+                    message.success("Sign Up sucessful")
+                    onSignIn()
+                    
+                    auth.onAuthStateChanged(function(user) {
+                        let userRef = db.collection('users').doc(user.uid)
+                        let payload = {
+                            "name":name,
+                            "email":email,
+                            "profession":profession
+                        }
+                        userRef.set(payload)
+                            .then(function(doc) {
+                                message.success("User Created")
+                            })
+                            .catch(function(error) {
+                                message.error("User Creation Unsucessfull \n error:"+error)
+                            })
+                    })
 
+                    setEmail('')
+                    setPassword('')
+                })
+                .catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                message.warning(errorCode+"  "+errorMessage)
+                // ...
+            });
+        }
+        
     }
     const onSignIn = () => {
+        setLoad(true)
         auth.signInWithEmailAndPassword(email,password)
             .then(function(result) {
                 message.success("sign in successful")
@@ -56,6 +87,7 @@ const Home = (props) =>{
             })
             .catch(function(error) {
                 message.warning(Error)
+                setLoad(false)
             })
     }
     return(
@@ -68,8 +100,8 @@ const Home = (props) =>{
                     <div key="5">
                         <Form>
                         <Input type="email" key="4" onChange={onEmailChange} style={{ width: '35%',marginRight:'10px' }} value={email} placeholder="user@example.com" />
-                        <Input.Password key="3" onChange={onPasswordChange} style={{ width: '35%',marginRight:'10px' }} value={password} placeholder="password" />
-                        <Button key="2" style={{marginRight:'10px' }} onClick={onSignIn}>Sign In</Button>
+                        <Input.Password key="3" onChange={onPasswordChange} style={{ width: '35%',marginRight:'10px' }} value={password} placeholder="password" onPressEnter={onSignIn}/>
+                        <Button key="2" style={{marginRight:'10px' }} onClick={onSignIn} loading ={load}>Sign In</Button>
                         <Button key="1" type="primary"style={{marginRight:'20px' }} onClick={showDrawer} >
                             Sign Up
                         </Button>
@@ -107,24 +139,6 @@ const Home = (props) =>{
                 </div>
             </Carousel>
             </div>
-            {/* <div className="Info_container">
-                <div className="site-card-wrapper">
-                    <Row gutter={16}>
-                    <Col span={8}>
-                        <Card title="Historical Information" bordered={false}>
-                        </Card>
-                    </Col>
-                    <Col span={8}>
-                        <Card title="Forecast analysis" bordered={false}>
-                        </Card>
-                    </Col>
-                    <Col span={8}>
-                        <Card title="Market Tendency" bordered={false}>
-                        </Card>
-                    </Col>
-                    </Row>
-                </div>
-            </div> */}
             <div className="signup_container">  
             <>
                 <Drawer

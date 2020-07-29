@@ -1,4 +1,4 @@
-import React from 'react';
+import React , { useState } from 'react';
 import { Tabs , Button , Affix , message , Space } from 'antd';
 import { AppleOutlined, ControlOutlined , DollarCircleOutlined, WechatOutlined, AppstoreAddOutlined } from '@ant-design/icons';
 import { navigate } from '@reach/router';
@@ -12,22 +12,26 @@ import './Dashboard.css'
 
 const { TabPane } = Tabs;
 
-
-const onSignOut = () => {
-    auth.signOut()
-        .then(function(result) {
-            message.success("logout successful");
-            navigate('/')
-        })
-        .catch(function(error) {
-            console.log(error);
-        })
-}
-const operations = <Button type="primary" onClick={onSignOut}>Sign Out</Button>;
-
-
  
 const Dashboard = (props) => {
+
+    const [ load , setLoad ] =useState(false)
+
+
+    const onSignOut = () => {
+        setLoad(true)
+        auth.signOut()
+            .then(function(result) {
+                message.success("logout successful");
+                navigate('/')
+            })
+            .catch(function(error) {
+                console.log(error);
+                setLoad(false)
+            })
+    }
+    const operations = <Button type="primary" onClick={onSignOut} loading ={load}>Sign Out</Button>;
+
     return (
         <div className="dashboard_container">
             <div className="tabs_container"style={{margin:'30px'}}>

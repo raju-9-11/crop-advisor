@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { ComposableMap, Geographies, Geography , ZoomableGroup } from 'react-simple-maps';
 import { scaleQuantile } from 'd3-scale';
 import ReactTooltip from 'react-tooltip';
-
 import LinearGradient from './LinearGradient.js';
 import './map.css';
 import { Button } from 'antd';
@@ -39,7 +38,7 @@ const geographyStyle = {
   },
   hover: {
     fill: '#ccc',
-    transition: 'all 250ms',
+    transition: 'all 250ms', 
     outline: 'none'
   },
   pressed: {
@@ -68,14 +67,14 @@ const getHeatMapData = () => {
     { id: 'ML', state: 'Meghalaya', value: 59 },
     { id: 'MZ', state: 'Mizoram', value: getRandomInt() },
     { id: 'NL', state: 'Nagaland', value: 59 },
-    { id: 'OR', state: 'Odisha', value: 59 },
+    { id: 'OD', state: 'Odisha', value: 59 },
     { id: 'PB', state: 'Punjab', value: getRandomInt() },
     { id: 'RJ', state: 'Rajasthan', value: getRandomInt() },
     { id: 'SK', state: 'Sikkim', value: getRandomInt() },
     { id: 'TN', state: 'Tamil Nadu', value: getRandomInt() },
-    { id: 'TG', state: 'Telangana', value: getRandomInt() },
+    { id: 'TS', state: 'Telangana', value: getRandomInt() },
     { id: 'TR', state: 'Tripura', value: 14 },
-    { id: 'UT', state: 'Uttarakhand', value: getRandomInt() },
+    { id: 'UK', state: 'Uttarakhand', value: getRandomInt() },
     { id: 'UP', state: 'Uttar Pradesh', value: 15 },
     { id: 'WB', state: 'West Bengal', value: 17 },
     { id: 'WB', state: 'West Bengal', value: 17 },
@@ -135,7 +134,6 @@ function Map() {
             <Geographies geography={INDIA_TOPO_JSON}>
               {({ geographies }) =>
                 geographies.map(geo => {
-                  //console.log(geo.id);
                   const current = data.find(s => s.id === geo.id);
                   return (
                     <Geography

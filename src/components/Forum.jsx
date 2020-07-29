@@ -1,51 +1,66 @@
-import React from 'react';
-import PostSnippet from './PostSnippet';
+import React , { useEffect , useState } from 'react';
+import { Link } from '@reach/router'
+import { Card , Avatar } from 'antd';
+import './Forum.css'
 import _ from 'lodash';
+import db from '../../firebase'; 
 
-
-const forum_api = [
-    {
-        "name":"John Doe",
-        "query":"Query 1",
-        "content":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    },
-    {
-        "name":"Jane Doe",
-        "query":"Query 2",
-        "content":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    },
-    {
-        "name":"Liam",
-        "query":"Query 3",
-        "content":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    },
-    {
-        "name":"Noah",
-        "query":"Query 4",
-        "content":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    },
-    {
-        "name":"Oliver",
-        "query":"Query 5", 
-        "content":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    }
-]
+const { Meta } = Card;
 
 
 const Forum = (props) => {
+    let [ queries , setQuery ] = useState([]);
+    useEffect( ()=>{
+        db.collection('queries')
+            .onSnapshot(async queries => {
+                let queryData = await queries.docs.map(query => {
+                    let data = query.data()
+                    let { id } = query
+                    let payload ={
+                        id,
+                        ...data
+                    }
+                    return payload
+                });
+                setQuery(queryData)
+            })
+        },[])
+
+
+
     return (
         <div className="forum_container">
             <div className="articles_container">
                 {
-                    _.map(forum_api, (post,idx) => {
+                    _.map(queries, (query,idx) => {
                         return(
-                            <PostSnippet
-                             key = {idx}
-                             title = {_.upperCase(post.query)}
-                             content={post.content.substring(0,1000)+' .....'}
-                             user = {post.name}
-
-                             />
+                             <div className="article_container" style={{marginTop:20}} key={idx} data={query}>
+                                 <Link to ={`/query/${query.id}`} >
+                                    <Card 
+                                        className="query_snippet_container"
+                                        title={_.upperCase(query.title)} 
+                                        // extra={
+                                        //     <div className="post_snippet_links">
+                                        //         <Link to = {`/query/${query.id}`} >More</Link>
+                                        //     </div>
+                                        // }
+                                        // actions={[
+                                        //     <SettingOutlined key="setting" />,
+                                        //     <EditOutlined key="edit" />,
+                                        //     <EllipsisOutlined key="ellipsis" />,
+                                        // ]}
+                                        >
+                                            <Meta
+                                            avatar={<Avatar src="https://pluspng.com/img-png/spiderman-logo-png-pin-spider-man-clipart-spiderman-logo-4-300.png" />}
+                                            />
+                                            <br />
+                                            <h3>{query.title}</h3>
+                                    <p className="article_content">            
+                                        {query.content.substring(0,1000)+' .....'}
+                                    </p>
+                                    </Card>
+                                </Link>
+                            </div>
                         )
                     })
                 }

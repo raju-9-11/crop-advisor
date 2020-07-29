@@ -1,92 +1,147 @@
-import React from 'react';
-import { List , Card , Input , Affix, message } from 'antd';
+import React , { useState, useEffect } from 'react';
+import { List , Card , Input , Affix, message , Modal, Button , Select , Form , DatePicker , Cascader , Tooltip } from 'antd';
 import './MarketTendency.css'
+import MarketSnippet from './MarketSnippet';
 const { Search } = Input;
 
-const api = [
-    {
-        "id":0,
-        "name":"Apple",
-        "price":"Rs.100 / kg",
-        "url":"https://i0.wp.com/images-prod.healthline.com/hlcmsresource/images/topic_centers/Do_Apples_Affect_Diabetes_and_Blood_Sugar_Levels-732x549-thumbnail.jpg?w=756&h=567",
-        "state":"Jammu and kashmir"
-    },
-    {
-        "id":1,
-        "name":"Orange",
-        "url":"https://cdn.britannica.com/24/174524-050-A851D3F2/Oranges.jpg",
-        "price":"Rs.80 /kg",
-        "state":"Gujarat"
-    },
-    {
-        "id":2,
-        "name":"Tomato",
-        "url":"https://www.healthline.com/hlcmsresource/images/AN_images/tomatoes-1200x628-facebook.jpg",
-        "price":"Rs.120 /kg",
-        "state":"Andhra Pradesh"
-    },
-    {
-        "id":3,
-        "name":"Watermelon",
-        "url":"https://media.fromthegrapevine.com/assets/images/2016/7/watermelon-whole-one-half.jpg.480x0_q71_crop-scale.jpg",
-        "price":"Rs.140 /kg",
-        "state":"Tamilnadu"
-    },
-    {
-        "id":4,
-        "name":"Onion",
-        "url":"https://assets.telegraphindia.com/telegraph/e86a62ad-fb69-49de-92b3-1a0c3d40073f.jpg",
-        "price":"Rs.150 /kg",
-        "state":"Karnataka"
-    },
-    {
-        "id":5,
-        "name":"Banana",
-        "url":"https://images.agoramedia.com/everydayhealth/gcms/All-About-Bananas-Nutrition-Facts-Health-Benefits-Recipes-and-More-RM-722x406.jpg",
-        "price":"Rs.70 /kg",
-        "state":"Kerala"
-    },
-
-]
 
 
+const MarketTendency = (props) =>{
+        const [ text , setText ] = useState('')
+        const [ data , setData ] = useState([])
+        const [ load , setLoad ] = useState(false)
 
+        const onSearch = (value) => {
+            setLoad(true)
+            message.info("Under Construction ! Use State Dropdown List")
+            console.log(text)
+        }
+        useEffect(() => {
+            const abortController = new AbortController()
+            const signal = abortController.signal
 
-const MarketTendency = (props) => {
-    const onSearchClick = (event) => {
-        message.warning("under construction")
-    }
-    return (
-        <div className="market_tendency_container">
-            <div>
-                <Affix offsetTop={20} >
-                    <Search className="search_container" placeholder="Input search "  onSearch={value => onSearchClick(value)} enterButton />
-                </Affix>
-            </div>
-                <List   
-                    grid={{
-                    gutter: 16,
-                    xs: 1,
-                    sm: 2,
-                    md: 4,
-                    lg: 3,
-                    xl: 3,
-                    xxl: 3,
-                    }}
-                    dataSource={api}
-                    renderItem={item => (
-                    <List.Item onClick={onSearchClick}>
-                        <Card className="card_container" title={item.name}
-                        cover={<img alt="example" src={item.url} height={300}/>}>
-                          <h3>
-                          {item.state}<br />{item.price}
-                            </h3>  
+            const url = "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd0000019c787e3a567e48dc6b48bf98dea2783a&format=json&offset=0&limit=1000&filters[state]="+text; // site that doesn’t send Access-Control-*
+            fetch(url)
+            .then(response => response.text())
+            .then(contents => {
+                setData(JSON.parse(contents).records)
+                setLoad(false)
+            })
+            .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
+
+            return function cleanup() {
+                abortController.abort()
+            }
+
+        })
+        const layout = {
+            wrapperCol: {
+              span: 16,
+            },
+          };
+         
+
+        const onStateChange = (value) => {
+            console.log(value)
+            setText(value)
+        }
+      
+    
+    
+            
+        // console.log(data)
+
+        return (
+            <div className="market_tendency_container">
+                <div className="get_market_report_container">
+                    <Card  title="Get Report"  
+                    // extra={<Button onClick={onGetReport} > Get Report </Button>} 
+                    >
+                        <Form
+                            {...layout}
+                            name="basic"
+                            initialValues={{
+                                remember: true,
+                            }}
+                            >
+                      
+                            <Form.Item
+                                label="Crop"
+                                name="Crop"
+                                rules={[
+                                    {
+                                    required: true,
+                                    message: 'Please enter Crop!',
+                                    },
+                                ]}
+                                >
+                                    <Search className="search_container" placeholder="Input Commodity " loading={load} onSearch={value => onSearch(value)} enterButton />
+                                </Form.Item>
+                                <Form.Item
+                                    style={{marginTop:'40px'}}
+                                    label="State"
+                                    name="state"
+                                    rules={[
+                                        {
+                                        required: true,
+                                        message: 'Please enter the state!',
+                                        },
+                                    ]}
+                                    >
+                                    <div >
+                                        <Tooltip title="Select a state ">
+                                        <Select
+                                        placeholder="Select a state"
+                                        onChange={value => onStateChange(value)}
+                                        allowClear
+                                        >
+                                        <Select.Option value="Jammu and Kashmir">Jammu and Kashmir</Select.Option>
+                                            <Select.Option value="Gujarat">Gujarat</Select.Option>
+                                            <Select.Option value="Madhya Pradesh">Madhya pradesh</Select.Option>
+                                            <Select.Option value="Andhra Pradesh">Andhra pradesh</Select.Option>
+                                            <Select.Option value="Haryana">Haryana</Select.Option>
+                                            <Select.Option value="Himachal Pradesh">Himachal Pradesh</Select.Option>
+                                            <Select.Option value="Karnataka">Karnataka</Select.Option>
+                                            <Select.Option value="NCT of Delhi">NCT of Delhi</Select.Option>
+                                            <Select.Option value="Chattisgarh">Chattisgarh</Select.Option>
+                                            <Select.Option value="Maharashtra">Maharashtra</Select.Option>
+                                            <Select.Option value="Odisha">Odisha</Select.Option>
+                                            <Select.Option value="Punjab">Punjab</Select.Option>
+                                            <Select.Option value="Rajasthan">Rajasthan</Select.Option>
+                                            <Select.Option value="Telangana">Telangana</Select.Option>
+                                            <Select.Option value="Tripura">Tripura</Select.Option>
+                                            <Select.Option value="Uttar Pradesh">Uttar Pradesh</Select.Option>
+                                            <Select.Option value="Uttrakhand">Uttrakhand</Select.Option>
+                                            <Select.Option value="West Bengal">West Bengal</Select.Option>
+                                            <Select.Option value="Kerala">Kerala</Select.Option>
+                                            <Select.Option value="Tamil Nadu">Tamilnadu</Select.Option>
+                                        </Select>
+                                        </Tooltip>
+                                    </div>
+                                </Form.Item>
+                            </Form>
                         </Card>
-                    </List.Item>
-                    )}
-                />
-        </div>
-    )
+                    </div>
+                    <List   
+                        grid={{
+                        gutter: 16,
+                        xs: 1,
+                        sm: 2,
+                        md: 4,
+                        lg: 3,
+                        xl: 3,
+                        xxl: 3,
+                        }}
+                        dataSource={data}
+                        renderItem={item => (
+                            <div>
+                            <MarketSnippet  item={item}/>
+                            </div>    
+                        )}
+                    />
+            </div>
+        )
+
 }
 
 export default MarketTendency;

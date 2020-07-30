@@ -10,6 +10,8 @@ const MarketTendency = (props) =>{
         const [ text , setText ] = useState('')
         const [ data , setData ] = useState([])
         const [ load , setLoad ] = useState(false)
+        const [ state , setState ] = useState('')
+        const [ holder , setHolder ] = useState('Select produce')
 
         const onSearch = (value) => {
             setLoad(true)
@@ -17,10 +19,10 @@ const MarketTendency = (props) =>{
             console.log(text)
         }
         useEffect(() => {
-            const abortController = new AbortController()
-            const signal = abortController.signal
+            const ac = new AbortController();
 
             const url = "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd0000019c787e3a567e48dc6b48bf98dea2783a&format=json&offset=0&limit=1000&filters[state]="+text; // site that doesn’t send Access-Control-*
+            
             fetch(url)
             .then(response => response.text())
             .then(contents => {
@@ -29,8 +31,9 @@ const MarketTendency = (props) =>{
             })
             .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
 
-            return function cleanup() {
-                abortController.abort()
+            return () => {
+                ac.abort();
+                setState('')
             }
 
         })
@@ -44,6 +47,7 @@ const MarketTendency = (props) =>{
         const onStateChange = (value) => {
             console.log(value)
             setText(value)
+            setHolder(value)
         }
       
     
@@ -89,10 +93,11 @@ const MarketTendency = (props) =>{
                                     ]}
                                     >
                                     <div >
-                                        <Tooltip title="Select a state ">
+                                        <Tooltip title={holder}>
                                         <Select
-                                        placeholder="Select a state"
+                                        placeholder={holder}
                                         onChange={value => onStateChange(value)}
+                                        value={state}
                                         allowClear
                                         >
                                         <Select.Option value="Jammu and Kashmir">Jammu and Kashmir</Select.Option>

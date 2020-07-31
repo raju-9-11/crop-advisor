@@ -10,7 +10,7 @@ const MarketTendency = (props) =>{
         const [ text , setText ] = useState('')
         const [ data , setData ] = useState([])
         const [ load , setLoad ] = useState(false)
-        const [ state , setState ] = useState('')
+        const [ state , setState ] = useState('Select produce')
         const [ holder , setHolder ] = useState('Select produce')
 
         const onSearch = (value) => {
@@ -19,6 +19,7 @@ const MarketTendency = (props) =>{
             console.log(text)
         }
         useEffect(() => {
+            let unmounted = false;
             const ac = new AbortController();
 
             const url = "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd0000019c787e3a567e48dc6b48bf98dea2783a&format=json&offset=0&limit=1000&filters[state]="+text; // site that doesn’t send Access-Control-*
@@ -26,14 +27,16 @@ const MarketTendency = (props) =>{
             fetch(url)
             .then(response => response.text())
             .then(contents => {
-                setData(JSON.parse(contents).records)
-                setLoad(false)
+                if (!unmounted) {
+                    setData(JSON.parse(contents).records)
+                    setLoad(false)
+                }
             })
             .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
 
             return () => {
                 ac.abort();
-                setState('')
+                unmounted=true
             }
 
         })
@@ -47,6 +50,7 @@ const MarketTendency = (props) =>{
         const onStateChange = (value) => {
             console.log(value)
             setText(value)
+            setState(value)
             setHolder(value)
         }
       

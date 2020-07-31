@@ -100,7 +100,7 @@ const Home = (props) =>{
                     <div key="5">
                         <Form>
                         <Input type="email" key="4" onChange={onEmailChange} style={{ width: '35%',marginRight:'10px' }} value={email} placeholder="user@example.com" />
-                        <Input.Password key="3" onChange={onPasswordChange} style={{ width: '35%',marginRight:'10px' }} value={password} placeholder="password" onPressEnter={onSignIn}/>
+                        <Input.Password key="3" onChange={onPasswordChange} style={{ width: '35%',marginRight:'10px' }} value={password} autoComplete="on" placeholder="password" onPressEnter={onSignIn}/>
                         <Button key="2" style={{marginRight:'10px' }} onClick={onSignIn} loading ={load}>Sign In</Button>
                         <Button key="1" type="primary"style={{marginRight:'20px' }} onClick={showDrawer} >
                             Sign Up

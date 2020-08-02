@@ -2,16 +2,40 @@ import React , { useState, useEffect } from 'react';
 import { List , Card , Input , Affix, message , Modal, Button , Select , Form , DatePicker , Cascader , Tooltip } from 'antd';
 import './MarketTendency.css'
 import MarketSnippet from './MarketSnippet';
-const { Search } = Input;
+import Fab from '@material-ui/core/Fab';
+import { makeStyles } from '@material-ui/core/styles';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
+const { Search } = Input;
 
 
 const MarketTendency = (props) =>{
         const [ text , setText ] = useState('')
         const [ data , setData ] = useState([])
         const [ load , setLoad ] = useState(false)
-        const [ state , setState ] = useState('Select produce')
-        const [ holder , setHolder ] = useState('Select produce')
+        const [ state , setState ] = useState('Select State')
+        const [ holder , setHolder ] = useState('Select State')
+        const useStyles = makeStyles((theme) => ({
+            fab: {
+              position: 'fixed',
+              bottom: theme.spacing(5),
+              right: theme.spacing(5),
+            },
+        }));
+        const classes = useStyles();
+        const [showScroll, setShowScroll] = useState(false)
+        const checkScrollTop = () => {    
+        if (!showScroll && window.pageYOffset > 400){
+            setShowScroll(true)    
+        } else if (showScroll && window.pageYOffset <= 400){
+            setShowScroll(false)    
+        }  
+        };
+        window.addEventListener('scroll', checkScrollTop)
+
+        const scrollTop = () =>{
+            window.scrollTo({top: 0, behavior: 'smooth'});
+         };
 
         const onSearch = (value) => {
             setLoad(true)
@@ -63,6 +87,8 @@ const MarketTendency = (props) =>{
             <div className="market_tendency_container">
                 <div className="get_market_report_container">
                     <Card  title="Get Report"  
+                    bordered={false}
+                    style={{backgroundColor:'rgb(201, 173, 167, 0.4)', borderBottomRightRadius:25 , borderBottomLeftRadius:25}}
                     // extra={<Button onClick={onGetReport} > Get Report </Button>} 
                     >
                         <Form
@@ -144,10 +170,13 @@ const MarketTendency = (props) =>{
                         dataSource={data}
                         renderItem={item => (
                             <div>
-                            <MarketSnippet  item={item}/>
+                            <MarketSnippet url = {item.commodity=="Tomato"&& "https://images.unsplash.com/photo-1518977822534-7049a61ee0c2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"}  item={item}/>
                             </div>    
                         )}
                     />
+                    <Fab color="primary" className={classes.fab} onClick={scrollTop} style={{ display: showScroll ? 'flex' : 'none'}} aria-label="scroll">
+                        <ExpandLessIcon />
+                    </Fab>
             </div>
         )
 

@@ -29,7 +29,7 @@ const CreateQuery = () => {
             })
     }
     return (
-        <div className="create_query_container" style={{padding:'30px',paddingBottom:'50px', border:'ridge', borderRadius:20}}>
+        <div className="create_query_container" style={{padding:'30px',paddingBottom:'50px',}}>
             <div className="page_header_container">
                 <PageHeader
                     className="site-page-header-1"

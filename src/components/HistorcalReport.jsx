@@ -2,6 +2,9 @@ import React from 'react';
 import { Input, Select , Button , Form, DatePicker, Card , Cascader , Tooltip , Affix , message } from 'antd';
 import './HistoricalReport.css'
 import Map from './map';
+import { makeStyles } from '@material-ui/core/styles';
+import AssignmentIcon from '@material-ui/icons/Assignment'
+import Fab from '@material-ui/core/Fab';
 
 const HistoricalReport = (props) => {
   const layout = {
@@ -9,6 +12,19 @@ const HistoricalReport = (props) => {
       span: 16,
     },
   };
+  const useStyles = makeStyles((theme) => ({
+    fab: {
+      position: 'fixed',
+      bottom: theme.spacing(5),
+      right: theme.spacing(5),
+    },
+    Card:{
+      position:'absolute',
+      right: theme.spacing(13),
+      top: theme.spacing(10),
+    }
+  }));
+  const classes = useStyles();
     const options = [
         {
           value: 'Fruits',
@@ -49,11 +65,11 @@ const HistoricalReport = (props) => {
         <div className="historical_report_container">
           
         <div className="map_container">
-          <Map />
+            <Map />
         </div>
-      <Affix offsetTop={40}>
-           <div className="get_historical_container">
-                <Card className="inputs_container" title="Get Report"  extra={<Button onClick={onGetReport} > Get Report </Button>} >
+
+           <div className={classes.Card}>
+                <Card className="inputs_container" style={{backgroundColor:'rgb(201, 173, 167,0.4)' , width:500}}  >
                 <div >
                   <Form
                       {...layout}
@@ -62,6 +78,10 @@ const HistoricalReport = (props) => {
                         remember: true,
                       }}
                     >
+                      <Form.Item
+                        label={<h2>Get Report </h2>}
+                        >
+                        </Form.Item>
                       <Form.Item
                           label="Crop"
                           name="crop"
@@ -74,7 +94,7 @@ const HistoricalReport = (props) => {
                         >
                           <div className="site-input-group-wrapper">
                             < Input.Group compact>
-                                    <Cascader style={{ width: '100%' }}  options={options} placeholder="Select Crop" />
+                                    <Cascader style={{ width: '100%' , backgroundColor:'rgb(0,0,0,0.3)'}}  options={options} placeholder="Select Crop" />
                                 </Input.Group>
                           </div>
                         </Form.Item>
@@ -88,7 +108,7 @@ const HistoricalReport = (props) => {
                             },
                           ]}
                         >
-                          <DatePicker style={{ width: '100%' }} />
+                          <DatePicker style={{ width: '100%' , backgroundColor:'rgb(0,0,0,0.3)' }} />
                         </Form.Item>
                         <Form.Item
                           label="State"
@@ -105,6 +125,7 @@ const HistoricalReport = (props) => {
                             <Select
                               placeholder="Select a state"
                               allowClear
+                              style={{ width: '100%' , backgroundColor:'rgb(0,0,0,0.3)' }}
                             >
                               <Select.Option value="jk">Jammu and Kashmir</Select.Option>
                                 <Select.Option value="jharkhand">Jharkhand</Select.Option>
@@ -124,11 +145,17 @@ const HistoricalReport = (props) => {
                               </Tooltip>
                           </div>
                     </Form.Item>
+                    <Form.Item>
+                      <Button type="primary" style={{float:'right'}}>Get Report</Button>
+                    </Form.Item>
                 </Form>
               </div>
             </Card>
         </div>
-        </Affix>
+        <Fab color="primary" className={classes.fab} aria-label="add">
+        <AssignmentIcon />
+      </Fab>
+
         </div>
     )
 }

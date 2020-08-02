@@ -26,9 +26,11 @@ class MarketSnippet extends React.Component {
         return(
             <div >
               <div>
-                <List.Item  onClick={this.showModal}>   
+                <List.Item  onClick={this.showModal} >   
                     <Card className="card_container" title={this.props.item.name}
-                          // cover={<img alt="example" src={this.props.item.url} height={300}/>}
+                    bordered={false}
+                          //cover={<img alt="example" src={this.props.url} height={300}/>}
+                          style={{backgroundColor:'rgb(201, 173, 167,0.8)'}}
                           >
                           <h3>Commodity: {this.props.item.commodity}<br /></h3> 
                             State:  {this.props.item.state}<br />

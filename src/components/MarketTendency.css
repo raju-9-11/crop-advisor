@@ -5,9 +5,10 @@
     border-radius: 25px;
 }
 .market_tendency_container {
-    margin: 20px;
+    margin: 0px;
 }
 .search_container {
+    background: rgb(201, 173, 167,0.4);
     margin-bottom: 20px;
 }
 .get_market_report_container{

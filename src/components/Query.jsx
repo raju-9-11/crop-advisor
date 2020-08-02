@@ -41,7 +41,7 @@ const AddReply = (props) => {
                 key="1"
                 showArrow={false}
                 
-                style={{borderBottomLeftRadius:25 , borderBottomRightRadius:25 , backgroundColor:'gray'}}>
+                style={{borderBottomLeftRadius:25 , borderBottomRightRadius:25 , backgroundColor:'#48BFE3'}}>
                     <Card
                         style={{ width: '100%' , borderRadius:25}}
                     >
@@ -114,7 +114,7 @@ class Query extends React.Component{
         
     
         return (
-            <div className="query_container">
+            <div className="query_container" style={{ }}>
                 <div className="page_header_container">
                     <PageHeader
                         style={{ borderTopLeftRadius:25 , borderTopRightRadius:25}}
@@ -126,11 +126,7 @@ class Query extends React.Component{
                 <div className="query_content_container">
                      <Card
                         style={{ width: '100%' }}
-                        // actions={[
-                        // <SettingOutlined key="setting" />,
-                        // <EditOutlined key="edit" />,
-                        // <EllipsisOutlined key="ellipsis" />,
-                        // ]}
+
                     >
                         <Meta
                         avatar={<Avatar src="https://pluspng.com/img-png/spiderman-logo-png-pin-spider-man-clipart-spiderman-logo-4-300.png" />}

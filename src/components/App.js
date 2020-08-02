@@ -38,7 +38,7 @@ function App() {
         <div className="app_container">
             <Router >
                 <Home default path="/"/>
-                <Dashboard path = "/dashboard" />
+                <Dashboard path = "/dashboard" username={name} />
                 <Query path="/query/:id" username={name} />
             </Router>
         </div>

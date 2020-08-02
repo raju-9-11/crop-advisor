@@ -126,7 +126,7 @@ function Map() {
         <ComposableMap
           projectionConfig={PROJECTION_CONFIG}
           projection="geoMercator"
-          width={600}
+          width={220}
           height={220}
           data-tip=""
         >
@@ -151,7 +151,7 @@ function Map() {
           </ZoomableGroup>
         </ComposableMap>
         <LinearGradient data={gradientData} />
-        <Button onClick={{onChangeButtonClick}}> change</Button>
+        {/*<Button onClick={{onChangeButtonClick}}> change</Button>*/}
         
     </div>
   );

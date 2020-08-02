@@ -68,15 +68,14 @@ export default function Dashboard(prop) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const onSignOut = () => {
-        setLoad(true)
         auth.signOut()
             .then(function(result) {
                 message.success("logout successful");
                 navigate('/')
             })
             .catch(function(error) {
+                message.error("error"+error)
                 console.log(error);
-                setLoad(false)
             })
     }
     const handleMenu = (event) => {

@@ -21,6 +21,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import ChatIcon from '@material-ui/icons/Chat';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -138,6 +139,7 @@ export default function Dashboard(prop) {
           <Tab label="Weather Forecast" icon={<FavoriteIcon />} {...a11yProps(1)} />
           <Tab label="Market Tendency" icon={<ShoppingBasket />} {...a11yProps(2)} />
           <Tab label="Forum" icon={<HelpIcon />} {...a11yProps(3)} />
+          <Tab label="ChatBot" icon={<ChatIcon />} {...a11yProps(4)} />
         </Tabs>
         {operations}
 
@@ -171,6 +173,9 @@ export default function Dashboard(prop) {
       backgroundAttachment:'fixed'}}>
           <Forum />
       </TabPanel>
+      <TabPanel value={value} index={4}>
+        <iframe src="https://chatbot.hellotars.com/conv/N1it31/"  style={{width:'100%',height:'800px'}}/>
+        </TabPanel>
     </div>
   );
 }

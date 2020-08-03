@@ -46,7 +46,7 @@ class App extends React.Component {
     const ref = React.createRef();
     return (
       <>
-        <Button type="primary" onClick={this.showModal}>
+        <Button type="primary" background='rgb(1,1,1)' onClick={this.showModal}>
           Get Report
         </Button>
         
@@ -388,8 +388,7 @@ const HistoricalReport = (props) => {
                           </div>
                     </Form.Item>
                     <Form.Item>
-                      {/* <Button type="primary" style={{float:'right'}} onClick={onGetReport}>Get Report</Button> */}
-                    <App />
+                      <Button type="primary" style={{float:'right',height:'40px'}}  ><App /></Button>
                     </Form.Item>
                 </Form>
               </div>

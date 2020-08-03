@@ -46,6 +46,9 @@ class App extends React.Component {
     const ref = React.createRef();
     return (
       <>
+        <Button type="primary" onClick={this.showModal}>
+          Get Report
+        </Button>
         
         <Modal
           width="800px"
@@ -54,7 +57,9 @@ class App extends React.Component {
           onOk={this.jspdfgenerator}
           onCancel={this.handleCancel}
         >
-       
+          
+
+         
           <div >
          <List id="Container"
             itemLayout="horizontal"

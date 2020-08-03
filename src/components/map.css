@@ -6,7 +6,8 @@
 .container {
   width: calc(60% );
   height: calc(60%);
-  border-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-top-left-radius: 50px;
   background-color: rgb(201, 173, 167, 0.4);
   padding: 40px;
   position: relative;
